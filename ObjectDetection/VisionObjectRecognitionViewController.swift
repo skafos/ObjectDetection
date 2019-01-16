@@ -13,7 +13,7 @@ import Skafos
 
 class VisionObjectRecognitionViewController: ViewController {
   
-    private let modelName:String = "ObjectDetection.mlmodel"
+    private let modelName:String = "ObjectDetection.mlmodel.gz"
     private var objectDetector:ObjectDetection! = ObjectDetection()
     private var detectionOverlay: CALayer! = nil
     
