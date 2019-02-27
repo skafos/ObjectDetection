@@ -19,7 +19,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     self.window = app.window
 
     // Skafos app key is required
-    Skafos.initialize("<YOUR SKAFOS APP KEY>")
+    Skafos.initialize("<publishable-key>", debug: true)
+
 
     return app.dispatch(launchOptions)
   }
