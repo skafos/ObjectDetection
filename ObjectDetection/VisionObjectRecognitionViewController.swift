@@ -12,7 +12,7 @@ import Vision
 import Skafos
 
 class VisionObjectRecognitionViewController: ViewController {
-  
+    // This will be the asset name you use in drag and drop on the dashboard
     private let assetName:String = "ObjectDetection"
     private var objectDetector:ObjectDetection! = ObjectDetection()
     private var detectionOverlay: CALayer! = nil
