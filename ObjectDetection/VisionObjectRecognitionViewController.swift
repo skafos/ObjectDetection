@@ -13,7 +13,7 @@ import Skafos
 
 class VisionObjectRecognitionViewController: ViewController {
   
-    private let assetName:String = "ObjectDetection.mlmodel.gz" <-- This will be the asset name you use in drag and drop on the dashboard
+    private let assetName:String = "ObjectDetection.mlmodel.gz"  
     private var objectDetector:ObjectDetection! = ObjectDetection()
     private var detectionOverlay: CALayer! = nil
     
@@ -37,6 +37,7 @@ class VisionObjectRecognitionViewController: ViewController {
       debugPrint("Model Reloaded")
       debugPrint(notification)
       Skafos.load(asset: self.assetName) { (error, asset) in
+        debugPrint(asset)
         guard let model = asset.model else {
           debugPrint("No model available")
           return
