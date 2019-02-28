@@ -44,6 +44,7 @@ class VisionObjectRecognitionViewController: ViewController {
         }
   
         self.objectDetector.model = model
+        self.setupVision()
       }
     }
 
