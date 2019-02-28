@@ -17,9 +17,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     self.window = app.window
-
-    // Skafos app key is required
-    Skafos.configure("<YOUR SKAFOS APP KEY>")
+    self.window?.rootViewController = VisionObjectRecognitionViewController()
+    
+    // Skafos publishable key is required
+    // You can find it under "app settings" in your project on the Skafos dashboard
+    Skafos.initialize("<PUBLISHABLE KEY>")
 
     return app.dispatch(launchOptions)
   }
@@ -55,10 +57,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   }
 
   func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+    debugPrint("Did receive push!")
     Skafos.application(application, didReceiveRemoteNotification: userInfo, fetchCompletionHandler: completionHandler)
   }
 
   func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
+    debugPrint("Did receive push!")
     Skafos.application(application, didReceiveRemoteNotification: userInfo)
   }
 

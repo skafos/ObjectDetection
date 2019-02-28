@@ -12,8 +12,8 @@ import Vision
 import Skafos
 
 class VisionObjectRecognitionViewController: ViewController {
-  
-    private let modelName:String = "ObjectDetection.mlmodel.gz"
+    // This will be the asset name you use in drag and drop on the dashboard
+    private let assetName:String = "ObjectDetection"
     private var objectDetector:ObjectDetection! = ObjectDetection()
     private var detectionOverlay: CALayer! = nil
     
@@ -26,7 +26,7 @@ class VisionObjectRecognitionViewController: ViewController {
        Receive Notification When New Model Has Been Downloaded And Compiled
        ***/
       
-      NotificationCenter.default.addObserver(self, selector: #selector(VisionObjectRecognitionViewController.reloadModel(_:)), name: Skafos.Notifications.modelUpdateNotification(modelName), object: nil)
+      NotificationCenter.default.addObserver(self, selector: #selector(VisionObjectRecognitionViewController.reloadModel(_:)), name: Skafos.Notifications.assetUpdateNotification(assetName), object: nil)
   
       /** Receive Notifications for all model updates  **/
       //    NotificationCenter.default.addObserver(self, selector: #selector(MainViewController.reloadModel(_:)), name: Skafos.Notifications.modelUpdated, object: nil)
@@ -36,13 +36,15 @@ class VisionObjectRecognitionViewController: ViewController {
     @objc func reloadModel(_ notification:Notification) {
       debugPrint("Model Reloaded")
       debugPrint(notification)
-      Skafos.load(self.modelName) { (model) in
-        guard let model = model else {
-          print("No model available")
+      Skafos.load(asset: self.assetName) { (error, asset) in
+        debugPrint(asset)
+        guard let model = asset.model else {
+          debugPrint("No model available")
           return
         }
   
         self.objectDetector.model = model
+        self.setupVision()
       }
     }
 
