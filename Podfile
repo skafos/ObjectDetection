@@ -6,5 +6,5 @@ target 'ObjectDetection' do
   use_frameworks!
 
   pod 'SnapKit'
-  pod 'Skafos', :git => 'https://github.com/metismachine/skafos_ios_internal.git'
+  pod 'Skafos', '2.5.0'
 end
