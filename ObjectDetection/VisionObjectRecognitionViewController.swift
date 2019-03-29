@@ -22,29 +22,46 @@ class VisionObjectRecognitionViewController: ViewController {
   
     override func viewDidLoad() {
       super.viewDidLoad()
+        
+      // Skafos load cached asset
+      // If you pass in a tag, Skafos will make a network request to fetch the asset with that tag
+        Skafos.load(asset: assetName, tag: "latest") { (error, asset) in
+            // Log the asset in the console
+            console.info(asset)
+            guard error == nil else {
+                console.error("Skafos load asset error: \(String(describing: error))")
+                return
+            }
+            guard let model = asset.model else {
+                console.info("No model available in the asset")
+                return
+            }
+            // Assign model to the objectDetector class
+            self.objectDetector.model = model
+            self.setupVision()
+        }
       /***
-       Receive Notification When New Model Has Been Downloaded And Compiled
+        Listen for changes in an asset with the given name. A notification is triggered anytime an
+        asset is downloaded from the servers. This can happen in response to a push notification
+        or when you manually call Skafos.load with a tag like above.
        ***/
-      
       NotificationCenter.default.addObserver(self, selector: #selector(VisionObjectRecognitionViewController.reloadModel(_:)), name: Skafos.Notifications.assetUpdateNotification(assetName), object: nil)
-  
-      /** Receive Notifications for all model updates  **/
-      //    NotificationCenter.default.addObserver(self, selector: #selector(MainViewController.reloadModel(_:)), name: Skafos.Notifications.modelUpdated, object: nil)
     }
 
-
     @objc func reloadModel(_ notification:Notification) {
-      debugPrint("Model Reloaded")
-      debugPrint(notification)
-      Skafos.load(asset: self.assetName) { (error, asset) in
-        debugPrint(asset)
-        guard let model = asset.model else {
-          debugPrint("No model available")
-          return
-        }
-  
-        self.objectDetector.model = model
-        self.setupVision()
+        Skafos.load(asset: assetName) { (error, asset) in
+            console.info(asset)
+            guard error == nil else {
+                console.error("Skafos reload asset error: \(String(describing: error))")
+                return
+            }
+            guard let model = asset.model else {
+                console.error("No model available in the asset")
+                return
+           }
+          // Assign model to the objectDetector class
+          self.objectDetector.model = model
+          self.setupVision()
       }
     }
 
